@@ -13,6 +13,7 @@ It can support ```-std=c++11``` or upper version
 - READ_FILE WRITE_FILE : This two marco is using ```__read_file_stream``` and  ```__to_file_stream``` to make it. Mainly using the stream buffer to control the data flow 
 
 ### HOW TO USE
+#### *!!!Write your code in //TODO:!!!*
 
 - DEBUG: 
     You can use the ```DEBUG``` mode to open the debug mode 

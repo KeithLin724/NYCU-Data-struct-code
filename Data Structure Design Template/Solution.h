@@ -77,6 +77,11 @@ public:
 #endif
     }
 
+private:
+    /* DATA: data */
+public:
+    /*TODO:*/
+
 public:
     /// @brief read file template code 
     /// @param fileName file name input
@@ -103,9 +108,6 @@ public:
         WRITE_FILE(ssOut);
     }
 
-
-private:
-    /* DATA: data */
 } solutionTools;
 
 #endif //!__SOLUTION_H__
