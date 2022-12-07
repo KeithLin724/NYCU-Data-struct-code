@@ -12,22 +12,14 @@ Date: 6/12/2022
 #include "Solution.h"
 using namespace std;
 
-int main(int argc, char* argv[]) {
-
+int main() {
     try {
-        // reading file 
-        solutionTools.read_file(argv[1]);
-
-        // check member function 
-        solutionTools.print_class_data();
-
         // run solution
-        solutionTools.run_solution(argv[2]);
+        solutionTools.run_solution("test.txt", "output.txt");
     }
     catch (const std::exception& e) {
         cerr << e.what() << '\n';
         exit(-1);
     }
     return 0;
-
 }
