@@ -49,7 +49,7 @@ namespace tools {
 
 	public:
 		GateCalculator() = default;
-		~GateCalculator() {}
+		~GateCalculator() = default;
 
 		inline static std::vector<std::int16_t> to_binary(const std::uint32_t& number, const std::uint32_t& bitsNumber) {
 			std::vector<std::int16_t> res(bitsNumber, 0);
@@ -109,12 +109,12 @@ namespace tools {
 		// is a function to classification the gate 
 		inline void __to_gate_array() {
 			for (size_t i(0); i < this->_indexWithGateType.size(); i++) {
-				auto findItr = this->_gateToIndexArray.find(this->_indexWithGateType[i]);
-				if (findItr == this->_gateToIndexArray.end()) {
-					this->_gateToIndexArray.insert({ this->_indexWithGateType[i], std::vector<_IdType>(1, i) });
-					continue;
+				try {
+					this->_gateToIndexArray.at(this->_indexWithGateType[i]).push_back(i);
 				}
-				findItr->second.push_back(i);
+				catch (const std::exception& e) {
+					this->_gateToIndexArray.insert({ this->_indexWithGateType[i], {1, static_cast<std::uint32_t>(i)} });
+				}
 			}
 
 			for (auto& elm : this->_gateToIndexArray) {
@@ -188,38 +188,35 @@ namespace tools {
 					res += std::to_string(elm) + ":" + std::to_string(inputState[elm]) + "\n";
 				}
 			}
-			catch (const std::exception& e) {
-				throw e;
-			}
+			catch (const std::exception& e) { throw e; }
 
 			return res;
 		}
 
 	public:
 		Solution() = default;
-		~Solution() {
-
-		}
+		~Solution() = default;
 
 		//read file
 		inline void read_file(const std::string& file_name) {
 			std::ifstream inFile;
 			inFile.exceptions(std::ifstream::eofbit | std::ifstream::failbit | std::ifstream::badbit);
+			std::stringstream tran, ss;
 			try {
 				inFile.open(file_name);
+				ss << inFile.rdbuf();
+				inFile.close();
 			}
 			catch (const std::exception& e) {
 				inFile.close();
 				throw e;
 			}
 
-			std::stringstream tran, ss;
-			ss << inFile.rdbuf();
 			ss >> this->_numberOfRoot;
 
 			this->_indexWithGateType.assign(this->_numberOfRoot, "INPUT");
 			this->_graphNodeDegree.assign(this->_numberOfRoot, 0);
-			this->_graph.assign(this->_numberOfRoot, std::unordered_set<_IdType>());
+			this->_graph.assign(this->_numberOfRoot, {});
 			this->_nodeOutputStateArr.assign(this->_numberOfRoot, std::int16_t(-1));
 
 			std::string tmpIn;
@@ -247,7 +244,7 @@ namespace tools {
 					tran >> a >> gateName;
 
 					auto&& gateStrTmp = this->_indexWithGateType[a];
-					gateStrTmp = std::string();
+					gateStrTmp = {};
 
 					//this->_indexWithGateType[a] = gateNameUp;
 					std::transform(all(gateName),
@@ -260,7 +257,7 @@ namespace tools {
 				}
 			}
 
-			inFile.close();
+
 		}
 
 		inline void run_solution(const std::string& fileName) {
