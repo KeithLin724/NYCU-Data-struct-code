@@ -85,22 +85,18 @@ namespace tools {
                 tranSplit << tmpLine;
 
                 if (!nextLine) {
-                    std::string numberStr;
+                    std::int64_t numberInt;
+
                     size_t memberCnt = 0;
 
                     this->_maxVal = std::numeric_limits<_IdType>::min();
                     this->_minVal = std::numeric_limits<_IdType>::max();
 
-                    while (std::getline(tranSplit, numberStr, ' ')) {
-                        this->_valArr.push_back({ std::stoll(numberStr)  , memberCnt++ });
-                        auto tmp = std::stoll(numberStr);
+                    while (tranSplit >> numberInt) {
+                        this->_valArr.push_back({ numberInt  , memberCnt++ });
 
-                        if (tmp > this->_maxVal) {
-                            this->_maxVal = tmp;
-                        }
-                        if (tmp < this->_minVal) {
-                            this->_minVal = tmp;
-                        }
+                        this->_maxVal = std::max(this->_maxVal, numberInt);
+                        this->_minVal = std::min(this->_minVal, numberInt);
                     }
 
                     nextLine = true;
