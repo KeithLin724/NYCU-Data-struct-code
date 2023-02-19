@@ -1,0 +1,13 @@
+I1 G1 0 0 0 Y
+G1 G2 5 5 0 Y
+G2 G3 13 13 0 Y
+G1 G4 5 17 12 N
+G3 G4 16 16 0 Y
+G3 G5 16 18 2 N
+G4 G6 21 21 0 Y
+G5 G7 23 25 2 N
+G6 G7 27 27 0 Y
+G7 O1 33 33 0 Y
+max latency: 38
+critical paths:
+I1 G1 G2 G3 G4 G6 G7 O1
